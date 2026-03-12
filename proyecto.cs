@@ -27,6 +27,18 @@ do
         Console.Write("Ingrese tipo de contenido (película, serie, documental, evento en vivo): ");
         contenido = Console.ReadLine();
 
+        Console.Write("Ingrese duración en minutos: ");
+        duracion = int.Parse(Console.ReadLine());
+
+        Console.Write("Ingrese clasificación (todo público, +13, +18): ");
+        clasificacion = Console.ReadLine();
+
+        Console.Write("Ingrese hora programada (0-23): ");
+        hora_programada = int.Parse(Console.ReadLine());
+
+        Console.Write("Ingrese nivel de producción (bajo, medio, alto): ");
+        produccion = Console.ReadLine();
+
      }
 
 } while (opcion !=5);
