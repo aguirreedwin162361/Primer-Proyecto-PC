@@ -42,3 +42,5 @@ do
      }
 
 } while (opcion !=5);
+
+int numero;
