@@ -1,3 +1,5 @@
+using System.Net.Mail;
+
 int opcion;
 string contenido = "";
 int duracion;
@@ -8,6 +10,9 @@ int totalEvaluados = 0;
 int publicados = 0;
 int rechazados = 0;
 int revision = 0;
+string impacto = "";
+string impacto_predominante = "";
+double porcentajeAprobación;
 
 do
 {
@@ -40,6 +45,96 @@ do
         Console.Write("Ingrese nivel de producción (bajo, medio, alto): ");
         produccion = Console.ReadLine();
 
+        contenido = contenido.ToLower();
+        clasificacion = clasificacion.ToLower();
+        produccion = produccion.ToLower();
+        impacto = impacto.ToLower();
+
+        bool validez = true;
+        if (contenido == "pelicula")
+        {
+            if (duracion<60 || duracion>180)
+            {
+               validez = false;
+            }
+        }
+
+        if (contenido == "serie")
+        {
+         
+             if (duracion<20|| duracion>90)
+            {
+               validez = false;
+            }     
+        }
+        if (contenido == "documental")
+        {
+         
+             if (duracion<30|| duracion>120)
+            {
+               validez = false;
+            }     
+        }
+
+        if (contenido == "evento en vivo")
+        {
+         
+             if (duracion<30|| duracion>240)
+            {
+               validez = false;
+            }     
+        }  
+        if (clasificacion == "+13")
+        {
+         if (hora_programada<6 || hora_programada>22)
+         {
+            validez = false;
+         }
+        }
+        if (clasificacion == "+18")
+        {
+         if (hora_programada>=6 && hora_programada<=21)
+         {
+            validez = false;
+         }
+        }        
+        if (produccion=="bajo" && clasificacion=="+18")
+        {
+         validez = false;
+        }
+        totalEvaluados++;      
+
+        if (validez == false)
+        {
+         Console.WriteLine("Contenido rechazado");
+         rechazados ++;
+        }
+        else
+        {
+          if (produccion == "alta" || duracion>120 || (hora_programada >= 20 && hora_programada<=23))
+          {
+            impacto = "alto";
+          }
+          else if (produccion == "media" || (duracion>= 60 && duracion <=120) )
+          {
+            impacto = "medio";
+          }
+
+          else if (produccion == "baja" || duracion < 60)
+          {
+            impacto = "bajo";
+          }
+        }
+        if (validez == true && (impacto == "bajo" || impacto=="medio"))
+        {
+         Console.WriteLine("Públicado");
+         publicados++;
+        }
+        else if (validez == true && impacto =="alto")
+        {
+         Console.WriteLine("Enviado a revisión");
+         revision++;
+        }
         break;
 
         case 2:
@@ -65,4 +160,3 @@ do
 
 } while (opcion !=5);
 
-int numero;
