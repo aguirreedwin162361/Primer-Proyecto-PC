@@ -1,4 +1,3 @@
-using System.Net.Mail;
 
 int opcion;
 string contenido = "";
@@ -30,13 +29,13 @@ do
      switch (opcion)
      {
         case 1:
-        Console.Write("Ingrese tipo de contenido (película, serie, documental, evento en vivo): ");
+        Console.Write("Ingrese tipo de contenido (pelicula, serie, documental, evento en vivo): ");
         contenido = Console.ReadLine();
 
         Console.Write("Ingrese duración en minutos: ");
         duracion = int.Parse(Console.ReadLine());
 
-        Console.Write("Ingrese clasificación (todo público, +13, +18): ");
+        Console.Write("Ingrese clasificación (todo publico, +13, +18): ");
         clasificacion = Console.ReadLine();
 
         Console.Write("Ingrese hora programada (0-23): ");
@@ -111,16 +110,16 @@ do
         }
         else
         {
-          if (produccion == "alta" || duracion>120 || (hora_programada >= 20 && hora_programada<=23))
+          if (produccion == "alto" || duracion>120 || (hora_programada >= 20 && hora_programada<=23))
           {
             impacto = "alto";
           }
-          else if (produccion == "media" || (duracion>= 60 && duracion <=120) )
+          else if (produccion == "medio" || (duracion>= 60 && duracion <=120) )
           {
             impacto = "medio";
           }
 
-          else if (produccion == "baja" || duracion < 60)
+          else if (produccion == "bajo" || duracion < 60)
           {
             impacto = "bajo";
           }
@@ -155,6 +154,30 @@ do
         Console.WriteLine("Producción baja solo válida para Todo público o +13");
         Console.WriteLine("Producción media o alta válida para cualquier clasificación ");
         Console.WriteLine("");
+        break;
+
+        case 3:
+        Console.WriteLine("Total evaluados:" + totalEvaluados);
+        Console.WriteLine("Publicados: " + publicados);
+        Console.WriteLine("Rechazados: " + rechazados);
+        Console.WriteLine("En revisión: " + revision);
+        Console.WriteLine("Impacto predominante: " + impacto_predominante);
+        if (totalEvaluados>0)
+        {
+        porcentajeAprobación = (publicados*100/totalEvaluados); 
+        Console.WriteLine("Porcentaje de aprobación: " + porcentajeAprobación + "%");
+        }
+
+        break;
+
+        case 4:
+        totalEvaluados=0;
+        publicados=0;
+        rechazados=0;
+        revision=0;
+        impacto_predominante="";
+        porcentajeAprobación=0;
+        Console.WriteLine("Estadisticas reiniciadas");
         break;
      }
 
