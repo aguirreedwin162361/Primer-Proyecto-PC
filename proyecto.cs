@@ -12,7 +12,9 @@ int revision = 0;
 string impacto = "";
 string impacto_predominante = "";
 double porcentajeAprobación;
-
+int ContadorAlto=0;
+int ContadorMedio=0;
+int ContadorBajo=0;
 do
 {
     Console.WriteLine("MENÚ");
@@ -30,24 +32,44 @@ do
      {
         case 1:
         Console.Write("Ingrese tipo de contenido (pelicula, serie, documental, evento en vivo): ");
-        contenido = Console.ReadLine();
+        contenido = Console.ReadLine().ToLower();
+        while (contenido != "pelicula" && contenido != "serie" && contenido != "documental" && contenido != "evento en vivo")
+         {
+            Console.Write("Error, ingrese contenido válido: ");
+            contenido = Console.ReadLine().ToLower();
+         }
 
         Console.Write("Ingrese duración en minutos: ");
         duracion = int.Parse(Console.ReadLine());
+        while (duracion <= 0)
+         {
+            Console.Write("Duración invalida, ingrese una mayor a 0: ");
+            duracion = int.Parse(Console.ReadLine());
+         }
 
         Console.Write("Ingrese clasificación (todo publico, +13, +18): ");
-        clasificacion = Console.ReadLine();
+        clasificacion = Console.ReadLine().ToLower();
+        while (clasificacion != "todo publico" && clasificacion != "+13" && clasificacion != "+18")
+         {
+            Console.Write("Error, ingrese clasificación valida: ");
+            clasificacion = Console.ReadLine().ToLower();
+         }
 
         Console.Write("Ingrese hora programada (0-23): ");
         hora_programada = int.Parse(Console.ReadLine());
+        while (hora_programada < 0 || hora_programada > 23)
+        {
+            Console.Write("Hora inválida, ingrese otra: ");
+            hora_programada = int.Parse(Console.ReadLine());
+        }
 
         Console.Write("Ingrese nivel de producción (bajo, medio, alto): ");
-        produccion = Console.ReadLine();
-
-        contenido = contenido.ToLower();
-        clasificacion = clasificacion.ToLower();
-        produccion = produccion.ToLower();
-        impacto = impacto.ToLower();
+        produccion = Console.ReadLine().ToLower();
+        while (produccion != "bajo" && produccion != "medio" && produccion != "alto")
+         {
+            Console.Write("Error, ingrese un nivel de producción valido: ");
+            produccion = Console.ReadLine().ToLower();
+         }
 
         bool validez = true;
         if (contenido == "pelicula")
@@ -105,28 +127,32 @@ do
 
         if (validez == false)
         {
-         Console.WriteLine("Contenido rechazado");
+         Console.WriteLine("Contenido rechazado debido a que no cumple todas las reglas obligatorias.");
          rechazados ++;
         }
         else
         {
+         impacto = "";
           if (produccion == "alto" || duracion>120 || (hora_programada >= 20 && hora_programada<=23))
           {
             impacto = "alto";
+            ContadorAlto++;
           }
           else if (produccion == "medio" || (duracion>= 60 && duracion <=120) )
           {
             impacto = "medio";
+            ContadorMedio++;
           }
 
           else if (produccion == "bajo" || duracion < 60)
           {
             impacto = "bajo";
+            ContadorBajo++;
           }
         }
         if (validez == true && (impacto == "bajo" || impacto=="medio"))
         {
-         Console.WriteLine("Públicado");
+         Console.WriteLine(" Contenido públicado");
          publicados++;
         }
         else if (validez == true && impacto =="alto")
@@ -157,17 +183,35 @@ do
         break;
 
         case 3:
+        MostrarEstadisticas: 
         Console.WriteLine("Total evaluados:" + totalEvaluados);
         Console.WriteLine("Publicados: " + publicados);
         Console.WriteLine("Rechazados: " + rechazados);
         Console.WriteLine("En revisión: " + revision);
+        if (ContadorAlto>ContadorMedio && ContadorAlto>ContadorBajo)
+        {
+         impacto_predominante = "alto";
+        }
+        else if (ContadorMedio>ContadorAlto && ContadorMedio>ContadorBajo)
+        {
+         impacto_predominante = "medio";
+        }
+        else if (ContadorBajo>ContadorAlto && ContadorBajo>ContadorMedio)
+        {
+         impacto_predominante = "bajo";
+        }
+        else
+        {
+         impacto_predominante= "no se puede determinar";
+        }
         Console.WriteLine("Impacto predominante: " + impacto_predominante);
+
         if (totalEvaluados>0)
         {
-        porcentajeAprobación = (publicados*100/totalEvaluados); 
+        porcentajeAprobación = (publicados*100)/totalEvaluados; 
         Console.WriteLine("Porcentaje de aprobación: " + porcentajeAprobación + "%");
         }
-
+        Console.WriteLine("");
         break;
 
         case 4:
@@ -177,8 +221,20 @@ do
         revision=0;
         impacto_predominante="";
         porcentajeAprobación=0;
+        ContadorAlto=0;
+        ContadorMedio=0;
+        ContadorBajo=0;
         Console.WriteLine("Estadisticas reiniciadas");
         break;
+
+        case 5:
+        Console.WriteLine("Resumen final: ");
+        goto MostrarEstadisticas;
+     }
+
+     if (opcion ==5)
+     {
+      break;
      }
 
 } while (opcion !=5);
