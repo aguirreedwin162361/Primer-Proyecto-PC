@@ -26,6 +26,11 @@ do
 
      Console.Write("Seleccione una opción: ");
      opcion = int.Parse(Console.ReadLine());
+     while (opcion != 1 && opcion !=2 && opcion!=3 && opcion !=4 && opcion !=5)
+     {
+      Console.Write("Error, ingrese una opcion correcta: ");
+      opcion=int.Parse(Console.ReadLine());
+     }
      Console.WriteLine("");
 
      switch (opcion)
@@ -127,7 +132,9 @@ do
 
         if (validez == false)
         {
+         Console.WriteLine("");
          Console.WriteLine("Contenido rechazado debido a que no cumple todas las reglas obligatorias.");
+         Console.WriteLine("");
          rechazados ++;
         }
         else
@@ -152,12 +159,16 @@ do
         }
         if (validez == true && (impacto == "bajo" || impacto=="medio"))
         {
+         Console.WriteLine("");
          Console.WriteLine(" Contenido públicado");
+         Console.WriteLine("");
          publicados++;
         }
         else if (validez == true && impacto =="alto")
         {
+         Console.WriteLine("");
          Console.WriteLine("Enviado a revisión");
+         Console.WriteLine("");
          revision++;
         }
         break;
